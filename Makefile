@@ -15,18 +15,20 @@ exampleStatic:
 	g++ src/example.cpp -Lbin/static -lsha -o bin/static-example
 	g++ src/example-file.cpp -Lbin/static -lsha -o bin/static-example-file
 
-# ========= compile static example ========
+# ========= compile shared example ========
 exampleShared:
 	make shared
 	g++ src/example.cpp -lsha -o bin/shared-example
+	g++ src/example-file.cpp -lsha -o bin/shared-example-file
 
 # ========= created static library ========
 static:
 	g++ -c 	src/SHA256.cpp 	-o bin/static/SHA256.o
 	g++ -c 	src/SHA384.cpp 	-o bin/static/SHA384.o
 	g++ -c  src/SHA512.cpp 	-o bin/static/SHA512.o
+	g++ -c 	src/MD5.cpp 	-o bin/static/MD5.o
 
-	ar rcs bin/static/libsha.a bin/static/SHA256.o bin/static/SHA384.o bin/static/SHA512.o
+	ar rcs bin/static/libsha.a bin/static/SHA256.o bin/static/SHA384.o bin/static/SHA512.o bin/static/MD5.o
 
 # ========= create shared library =========
 shared:
@@ -37,8 +39,9 @@ shared:
 	g++ -c -fPIC src/SHA256.cpp 	-o bin/shared/SHA256.o
 	g++ -c -fPIC src/SHA384.cpp 	-o bin/shared/SHA384.o
 	g++ -c -fPIC src/SHA512.cpp 	-o bin/shared/SHA512.o
+	g++ -c -fPIC src/MD5.cpp		-o bin/shared/MD5.o
 
-	g++ -shared bin/shared/SHA256.o bin/shared/SHA384.o bin/shared/SHA512.o -o bin/shared/libsha.so
+	g++ -shared bin/shared/SHA256.o bin/shared/SHA384.o bin/shared/SHA512.o bin/shared/MD5.o -o bin/shared/libsha.so
 
 	# moving the shared object to a standard location
 	sudo mv bin/shared/libsha.so /usr/lib

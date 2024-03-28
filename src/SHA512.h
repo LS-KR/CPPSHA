@@ -65,6 +65,7 @@ private:
 
 public:
 	std::string hash(const std::string input);
+	std::string hash(const unsigned char* bytes, size_t size);
 
 	SHA512();
 	~SHA512();

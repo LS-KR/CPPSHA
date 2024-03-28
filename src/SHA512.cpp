@@ -8,7 +8,6 @@
 #include <string.h>
 #include <iostream>
 #include <iomanip>
-#include <cstdint>
 #include <sstream>
 
 typedef unsigned long long uint64;
@@ -35,6 +34,18 @@ std::string SHA512::hash(const std::string input){
 	uint64* h = new uint64[HASH_LEN]; // buffer holding the message digest (512-bit = 8 64-bit words)
 
 	buffer = preprocess((unsigned char*) input.c_str(), nBuffer);
+	process(buffer, nBuffer, h);
+
+	freeBuffer(buffer, nBuffer);
+	return digest(h);
+}
+
+std::string SHA512::hash(const unsigned char* bytes, size_t size) {
+	size_t nBuffer;
+	uint64** buffer;
+	uint64* h = new uint64[HASH_LEN];
+
+	buffer = preprocess(bytes, nBuffer);
 	process(buffer, nBuffer, h);
 
 	freeBuffer(buffer, nBuffer);

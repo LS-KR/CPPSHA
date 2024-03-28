@@ -7,11 +7,13 @@ all:
 	make clean
 	make exampleStatic
 	make exampleShared
+	cp src/example-file.cpp bin/example-file.cpp
 
 # ========= compile static example ========
 exampleStatic:
 	make static
 	g++ src/example.cpp -Lbin/static -lsha -o bin/static-example
+	g++ src/example-file.cpp -Lbin/static -lsha -o bin/static-example-file
 
 # ========= compile static example ========
 exampleShared:

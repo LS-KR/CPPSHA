@@ -5,6 +5,7 @@
 #ifndef H_SHA256
 #define H_SHA256
 
+#include <cstddef>
 #include <string>
 #include <cstdint>
 
@@ -60,6 +61,7 @@ private:
 
 public:
 	std::string hash(const std::string input);
+	std::string hash(const unsigned char* bytes, size_t size);
 
 	SHA256();
 	~SHA256();

@@ -3,6 +3,7 @@
  */
 
 #include "SHA256.h"
+#include <cstddef>
 #include <stdio.h>
 #include <string>
 #include <string.h>
@@ -36,6 +37,18 @@ std::string SHA256::hash(const std::string input){
 	uint32* h = new uint32[HASH_LEN]; // buffer holding the message digest (256-bit = 8 32-bit words)
 
 	buffer = preprocess((unsigned char*) input.c_str(), nBuffer);
+	process(buffer, nBuffer, h);
+
+	freeBuffer(buffer, nBuffer);
+	return digest(h);
+}
+
+std::string SHA256::hash(const unsigned char *bytes, size_t size) {
+    size_t nBuffer;
+	uint32** buffer;
+	uint32* h = new uint32[HASH_LEN];
+
+	buffer = preprocess(bytes, nBuffer);
 	process(buffer, nBuffer, h);
 
 	freeBuffer(buffer, nBuffer);
